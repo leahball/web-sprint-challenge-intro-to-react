@@ -1,0 +1,1 @@
+export const starWarsRed = "#CF1020";

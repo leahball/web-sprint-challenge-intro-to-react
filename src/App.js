@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Character from './components/Character';
+import { Character } from './components/Character';
+import { Details } from './components/Details';
 import './App.css';
 
 const StyledHeader = styled.div`
   width: 100;
   height: 20vh;
-  background-color: blue;
   color: white;
+  h1 {
+    font-size: 3rem;
+  }
 `
 const StyledCharacterList = styled.div`
   display: flex;
@@ -20,13 +23,12 @@ const StyledCharacterList = styled.div`
 
 const App = () => { 
   const [ characters, setCharacters ] = useState([]);
+  const [ openCharacter, setOpenCharacter ] = useState();
 
   useEffect(() => {
     axios.get('https://swapi.dev/api/people')
     .then((res) => {
       setCharacters(res.data);
-      console.log(res.data);
-
     })
     .catch((err) => {
       console.error(err);
@@ -46,7 +48,8 @@ const App = () => {
       <StyledHeader>
         <h1>Star Wars Characters</h1>
       </StyledHeader>
-      <StyledCharacterList>
+      <Details charName={characters.name} charAge={characters.age} openCharacter={openCharacter} setOpenCharacter={setOpenCharacter} />
+      <StyledCharacterList setOpenCharacter={setOpenCharacter}>
         {characters.map((character) => (
           <Character character={character} key={character.id}/>))}
       </StyledCharacterList>
